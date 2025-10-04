@@ -1,8 +1,11 @@
 /* 
     File: admin.js
     Location: /js/admin.js
-    Description: Admin dashboard functionality - manage teachers, students, appointments
+    Description: Admin dashboard functionality - FIXED: Creating teacher doesn't logout admin
 */
+
+// Store current admin user
+let currentAdminUser = null;
 
 // Check if user is authenticated and is admin
 auth.onAuthStateChanged(async (user) => {
@@ -20,6 +23,9 @@ auth.onAuthStateChanged(async (user) => {
       window.location.href = "login.html";
       return;
     }
+
+    // Store admin user
+    currentAdminUser = user;
 
     // Display admin name
     document.getElementById("adminName").textContent = userData.name || "Admin";
@@ -63,7 +69,7 @@ async function loadStatistics() {
   }
 }
 
-// ===== ADD TEACHER =====
+// ===== ADD TEACHER ===== (FIXED - No Auto-Login)
 document.getElementById("addTeacherForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -72,14 +78,42 @@ document.getElementById("addTeacherForm").addEventListener("submit", async (e) =
   const department = document.getElementById("teacherDepartment").value.trim();
   const subject = document.getElementById("teacherSubject").value.trim();
 
+  // Show loading state
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = "Creating Teacher...";
+  submitBtn.disabled = true;
+
   try {
-    // Create teacher account in auth
     const password = "teacher123"; // Default password
-    const teacherCredential = await auth.createUserWithEmailAndPassword(email, password);
-    const teacherUser = teacherCredential.user;
+
+    // SOLUTION 1: Use Firebase REST API (No auto-login)
+    const API_KEY = firebase.app().options.apiKey;
+
+    const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: false,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || "Failed to create teacher account");
+    }
+
+    const teacherUid = data.localId;
+
+    console.log("Teacher account created:", email, "UID:", teacherUid);
 
     // Add to users collection
-    await db.collection("users").doc(teacherUser.uid).set({
+    await db.collection("users").doc(teacherUid).set({
       name: name,
       email: email,
       role: "teacher",
@@ -89,7 +123,7 @@ document.getElementById("addTeacherForm").addEventListener("submit", async (e) =
 
     // Add to teachers collection
     await db.collection("teachers").add({
-      userId: teacherUser.uid,
+      userId: teacherUid,
       name: name,
       email: email,
       department: department,
@@ -97,11 +131,11 @@ document.getElementById("addTeacherForm").addEventListener("submit", async (e) =
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    console.log("Teacher added:", name);
+    console.log("Teacher data saved to Firestore");
 
     // Show success message
     const messageDiv = document.getElementById("teacherMessage");
-    messageDiv.textContent = `Teacher added successfully! Default password: ${password}`;
+    messageDiv.textContent = `✅ Teacher "${name}" added successfully! Email: ${email} | Password: ${password}`;
     messageDiv.classList.add("show");
 
     // Reset form
@@ -117,7 +151,22 @@ document.getElementById("addTeacherForm").addEventListener("submit", async (e) =
     }, 5000);
   } catch (error) {
     console.error("Error adding teacher:", error);
-    alert("Error adding teacher: " + error.message);
+
+    let errorMessage = "Error adding teacher: " + error.message;
+
+    if (error.message.includes("EMAIL_EXISTS")) {
+      errorMessage = "Error: This email is already registered!";
+    } else if (error.message.includes("INVALID_EMAIL")) {
+      errorMessage = "Error: Invalid email address!";
+    } else if (error.message.includes("WEAK_PASSWORD")) {
+      errorMessage = "Error: Password is too weak!";
+    }
+
+    alert(errorMessage);
+  } finally {
+    // Reset button
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
   }
 });
 
@@ -245,6 +294,9 @@ async function deleteTeacher(teacherId) {
     // Delete from users collection
     await db.collection("users").doc(teacher.userId).delete();
 
+    // Note: Cannot delete from Firebase Auth without Admin SDK
+    // The auth account will remain but user data is deleted
+
     console.log("Teacher deleted:", teacherId);
     alert("Teacher deleted successfully!");
 
@@ -256,7 +308,7 @@ async function deleteTeacher(teacherId) {
   }
 }
 
-// ===== LOAD PENDING STUDENTS ===== (FIXED VERSION)
+// ===== LOAD PENDING STUDENTS =====
 async function loadPendingStudents() {
   try {
     // Get all users and filter in JavaScript (no index needed)
