@@ -1,0 +1,68 @@
+<!-- 
+    File: login.html
+    Location: /login.html (Root directory)
+    Description: Login page for all users (Admin, Teacher, Student)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Student-Teacher Appointment System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-section">
+            <div class="card auth-card">
+                <h1>🔐 Login</h1>
+                <p class="subtitle">Enter your credentials to continue</p>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+
+                    <div id="errorMessage" class="error-message"></div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Login
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="register.html">Register as Student</a></p>
+                    <p><a href="index.html">← Back to Home</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

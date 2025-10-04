@@ -1,0 +1,105 @@
+<!-- 
+    File: teacher.html
+    Location: /teacher.html (Root directory)
+    Description: Teacher dashboard for managing appointments and messages
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Student-Teacher Appointment System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <h2>👨‍🏫 Teacher Dashboard</h2>
+        <div class="nav-links">
+            <span id="teacherName">Teacher</span>
+            <button onclick="logout()" class="btn btn-danger btn-small">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Statistics Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Total Appointments</h3>
+                <div class="number" id="totalAppointments">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Requests</h3>
+                <div class="number" id="pendingAppointments">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Approved Today</h3>
+                <div class="number" id="approvedToday">0</div>
+            </div>
+        </div>
+
+        <!-- My Appointments -->
+        <div class="table-container">
+            <h2>📅 My Appointments</h2>
+            <div class="search-section">
+                <select id="statusFilter" onchange="filterAppointments()">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <table id="appointmentsTable">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTableBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Loading appointments...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Messages Section -->
+        <div class="card dashboard-card">
+            <h2>💬 Send Message to Student</h2>
+            <form id="sendMessageForm">
+                <div class="form-group">
+                    <label for="studentSelect">Select Student</label>
+                    <select id="studentSelect" required>
+                        <option value="">-- Select Student --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="messageSubject">Subject</label>
+                    <input type="text" id="messageSubject" placeholder="Enter subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="messageText">Message</label>
+                    <textarea id="messageText" placeholder="Enter your message" required></textarea>
+                </div>
+                <div id="messageStatus" class="success-message"></div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/teacher.js"></script>
+</body>
+</html>

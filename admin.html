@@ -1,0 +1,174 @@
+<!-- 
+    File: admin.html
+    Location: /admin.html (Root directory)
+    Description: Admin dashboard for managing teachers, students, and appointments
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Student-Teacher Appointment System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <h2>⚙️ Admin Dashboard</h2>
+        <div class="nav-links">
+            <span id="adminName">Admin</span>
+            <button onclick="logout()" class="btn btn-danger btn-small">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Statistics Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Total Teachers</h3>
+                <div class="number" id="totalTeachers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Students</h3>
+                <div class="number" id="pendingStudents">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Appointments</h3>
+                <div class="number" id="totalAppointments">0</div>
+            </div>
+        </div>
+
+        <!-- Add Teacher Section -->
+        <div class="card dashboard-card">
+            <h2>➕ Add New Teacher</h2>
+            <form id="addTeacherForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacherName">Full Name</label>
+                        <input type="text" id="teacherName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherEmail">Email</label>
+                        <input type="email" id="teacherEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacherDepartment">Department</label>
+                        <input type="text" id="teacherDepartment" placeholder="e.g., Computer Science" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherSubject">Subject</label>
+                        <input type="text" id="teacherSubject" placeholder="e.g., Data Structures" required>
+                    </div>
+                </div>
+                <div id="teacherMessage" class="success-message"></div>
+                <button type="submit" class="btn btn-primary">Add Teacher</button>
+            </form>
+        </div>
+
+        <!-- Teachers List -->
+        <div class="table-container">
+            <h2>👨‍🏫 All Teachers</h2>
+            <table id="teachersTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Subject</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="teachersTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center;">Loading teachers...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pending Student Approvals -->
+        <div class="table-container">
+            <h2>👨‍🎓 Pending Student Approvals</h2>
+            <table id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Loading pending students...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- All Appointments -->
+        <div class="table-container">
+            <h2>📅 All Appointments</h2>
+            <table id="appointmentsTable">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Teacher</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTableBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Loading appointments...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Edit Teacher Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Teacher</h2>
+                <button class="close-modal" onclick="closeEditModal()">&times;</button>
+            </div>
+            <form id="editTeacherForm">
+                <input type="hidden" id="editTeacherId">
+                <div class="form-group">
+                    <label for="editTeacherName">Full Name</label>
+                    <input type="text" id="editTeacherName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTeacherEmail">Email</label>
+                    <input type="email" id="editTeacherEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTeacherDepartment">Department</label>
+                    <input type="text" id="editTeacherDepartment" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTeacherSubject">Subject</label>
+                    <input type="text" id="editTeacherSubject" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Teacher</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

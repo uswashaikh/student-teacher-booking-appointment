@@ -1,0 +1,45 @@
+# File: .gitignore
+# Location: /.gitignore (Root directory)
+# Description: Files and folders to ignore in Git
+
+# Firebase
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+.firebase/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node Modules (if using npm)
+node_modules/
+package-lock.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+.env.local
+.env.production
+
+# Temporary Files
+*.tmp
+*.temp
+.cache/
+
+# Build Output (if using build tools)
+dist/
+build/
