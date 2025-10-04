@@ -51,7 +51,7 @@ Before you begin, ensure you have:
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/student-teacher-appointment.git
+git clone https://github.com/uswashaikh/student-teacher-booking-appointment
 cd student-teacher-appointment
 ```
 
