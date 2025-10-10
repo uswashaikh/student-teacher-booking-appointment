@@ -35,7 +35,7 @@ This system facilitates seamless appointment scheduling between students and tea
 - **Backend:** Firebase
   - Authentication (Email/Password)
   - Firestore Database
--- **Backend:** Netlify 
+- **Backend:** Netlify 
   - Hosting
 - **Design:** Responsive, Mobile-First Design
 
