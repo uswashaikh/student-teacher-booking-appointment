@@ -80,10 +80,16 @@ cd student-teacher-appointment
    - Choose a location closest to you
    - Click "Enable"
 
-   **c) Enable Hosting (for deployment):**
-   - Go to **Hosting**
-   - Click "Get Started"
-   - Follow the setup wizard
+   **c) Set up Hosting with Netlify (for deployment):**
+  - Go to [Netlify](https://www.netlify.com/)
+  - Click **"Add new site"** → **"Import from Git"**
+  - Connect your GitHub repository
+  - Set build settings:
+  - **Build command**: `npm run build` *(or as per your project)*
+  - **Publish directory**: `dist` *(or `build`, depending on your setup)*
+  - Click **"Deploy Site"**
+  - After deployment, your site will be live at a Netlify URL (e.g., `https://your-site-name.netlify.app`)
+
 
 3. **Get Firebase Configuration**
    - In Firebase Console, click the gear icon ⚙️ (Project Settings)
@@ -180,7 +186,7 @@ firebase deploy
    - Click "Login"
    - Enter admin credentials:
      - Email: `admin@example.com`
-     - Password: `admin123`
+     - Password: `Admin@123`
 
 2. **Add Teachers:**
    - In Admin Dashboard, scroll to "Add New Teacher"
@@ -485,16 +491,14 @@ Solution:
 ### Admin Account
 ```
 Email: admin@example.com
-Password: admin123
+Password: Admin@123
 ```
 
 ### Sample Teacher Account (After adding via admin)
 ```
-Email: (as entered by admin)
-Password: teacher123 (default)
+Email: john.smith@example.com
+Password: teacher123 
 ```
-
-**⚠️ Important:** Change all default passwords after first login!
 
 ## 📝 Logging
 
@@ -558,8 +562,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## ✍️ Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@uswashaikh](https://github.com/uswashaikh)
+- Email: uswashaikh@example.com
 
 ## 🙏 Acknowledgments
 
@@ -567,22 +571,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Google Fonts for typography
 - Icons from emoji set
 - Internship program supervisors
-
-## 📸 Screenshots
-
-### Landing Page
-*Add screenshot here*
-
-### Admin Dashboard
-*Add screenshot here*
-
-### Student Dashboard
-*Add screenshot here*
-
-### Teacher Dashboard
-*Add screenshot here*
-
----
 
 **Made with ❤️ for Education**
 
